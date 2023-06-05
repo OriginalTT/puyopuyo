@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tetris</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+
+<body>
+    <main>
+        <div id="instructions">
+            <h3>Instructions:</h3>
+            <p>Use arrow keys to move the tetrominoes. Up arrow key rotates the tetromino, and Spacebar swaps the
+                current and reserved tetrominoes.</p>
+        </div>
+        <div id="game-screen">
+            <canvas width="200" height="400"></canvas>
+            <div class="side-bar">
+                <div id="score-area">
+                    <h2>SCORE</h2>
+                    <h1 id="score">0</h1>
+                </div>
+                <div id="reserved-area">
+                    <h2>KEEP</h2>
+                    <canvas width="70" height="100" id="reserved"></canvas>
+                </div>
+            </div>
+        </div>
+        <div id="controls">
+            <button id="left-button">Left</button>
+            <button id="right-button">Right</button>
+            <button id="down-button">Down</button>
+            <button id="rotate-button">Rotate</button>
+            <button id="swap-button">Keep</button>
+        </div>
+        <div id="game-controls">
+            <button id="pause-button">Pause</button>
+            <button id="start-button">Start</button>
+            <button id="restart-button">Restart</button>
+        </div>
+    </main>
+    <script type="text/javascript" src="./tetris.js"></script>
+</body>
+
+</html>
