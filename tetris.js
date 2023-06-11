@@ -1,30 +1,39 @@
+// Retrieve canvas and set context
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
+
+// Scaling for the tetrominoes
 const scale = 20;
+
+// Calculate the number of rows and columns based on canvas size and scale
 const rows = canvas.height / scale;
 const columns = canvas.width / scale;
 
+// Reserved canvas for showing the next piece
 const reservedCanvas = document.querySelector('#reserved');
 const reservedCtx = reservedCanvas.getContext('2d');
 const reservedScale = 20;
 
+// Status of the game running or not
 let isRunning = false;
 
-// Define audio files
+// Define audio files for various game events
 let rotateSound = new Audio('audio/rotate.mp3');
 let moveSound = new Audio('audio/move.mp3');
 let rowCompleteSound = new Audio('audio/rowComplete.mp3');
 let bgMusic = new Audio('audio/bgMusic.mp3');
-bgMusic.volume = 0.2;  // 50% volume
+bgMusic.volume = 0.2;  // Background music at 20% volume
 
+// Function to play sound 
 function playSound(audio) {
     let sound = audio.cloneNode();
     sound.play();
 }
 
+// Keep track of the score
 let score = 0;
 
-// Properly defined tetrominoes
+// Define tetrominoes as 4x4 grids
 const tetrominoes = [
     [0, 0, 1, 0,
         0, 0, 1, 0,
@@ -53,9 +62,10 @@ const tetrominoes = [
     // Add other tetrominoes in similar 4x4 grid
 ];
 
+// Colors for the tetrominoes
 const colors = ['cyan', 'blue', 'orange', 'yellow', 'green', 'purple'];
 
-
+// Class to represent a Tetromino
 class Tetromino {
     constructor() {
         this.x = columns / 2 - 2;
@@ -65,6 +75,7 @@ class Tetromino {
         this.color = colors[this.shapeIndex];
     }
 
+    // Draw method for Tetromino
     draw() {
         ctx.fillStyle = this.color;
         for (let y = 0; y < 4; y++) {
@@ -76,6 +87,7 @@ class Tetromino {
         }
     }
 
+    // Moving and rotation methods
     moveDown() {
         this.y++;
         if (this.hasCollision()) {
@@ -85,8 +97,6 @@ class Tetromino {
             tetromino = new Tetromino();
         }
     }
-
-
     moveRight() {
         this.x++;
         if (this.hasCollision()) {
@@ -95,7 +105,6 @@ class Tetromino {
             playSound(moveSound);
         }
     }
-
     moveLeft() {
         this.x--;
         if (this.hasCollision()) {
@@ -104,7 +113,6 @@ class Tetromino {
             playSound(moveSound);
         }
     }
-
     rotate() {
         let originalShape = this.shape;
         let rotatedShape = [];
@@ -121,7 +129,7 @@ class Tetromino {
         }
     }
 
-
+    // Collision detection
     hasCollision() {
         let result = false;
         for (let y = 0; y < 4; y++) {
@@ -144,7 +152,7 @@ class Tetromino {
         return result;
     }
 
-
+    // Locking a Tetromino in place
     lock() {
         for (let y = 0; y < 4; y++) {
             for (let x = 0; x < 4; x++) {
@@ -195,6 +203,7 @@ class Tetromino {
 
 }
 
+// Check if game is over
 function gameOver() {
     for (let x = 0; x < columns; x++) {
         if (playfield[0][x] !== undefined) {
@@ -204,8 +213,8 @@ function gameOver() {
     return false;
 }
 
+// The playfield is an array of arrays, initialized as empty
 let playfield = [];
-
 for (let y = 0; y < rows; y++) {
     playfield[y] = [];
     for (let x = 0; x < columns; x++) {
@@ -213,6 +222,7 @@ for (let y = 0; y < rows; y++) {
     }
 }
 
+// Event listener for user input
 document.addEventListener('keydown', function (e) {
     switch (e.keyCode) {
         case 37: //left arrow
@@ -233,6 +243,7 @@ document.addEventListener('keydown', function (e) {
     }
 });
 
+// Function to update playfield
 function updatePlayfield() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = '#000000';
@@ -247,10 +258,12 @@ function updatePlayfield() {
     }
 }
 
+// Function to update score
 function updateScore() {
     document.querySelector('#score').innerText = score;
 }
 
+// Function to swap the current and reserved Tetrominos
 function swapTetromino() {
     if (reservedTetromino === null) {
         reservedTetromino = tetromino;
@@ -265,6 +278,7 @@ function swapTetromino() {
     drawReservedTetromino();
 }
 
+// Game loop
 let dropCounter = 0;
 let dropInterval = 1000;
 let lastTime = 0;
@@ -289,11 +303,11 @@ function animate(now = 0) {
     }
 }
 
-
+// Initial Tetromino and reserved Tetromino
 let tetromino = new Tetromino();
 let reservedTetromino = null;
 
-
+// Draw the reserved Tetromino
 function drawReservedTetromino() {
     reservedCtx.clearRect(0, 0, reservedCanvas.width, reservedCanvas.height);
     if (reservedTetromino !== null) {
@@ -327,19 +341,17 @@ document.getElementById('rotate-button').addEventListener('click', function () {
 document.getElementById('swap-button').addEventListener('click', function () {
     swapTetromino();
 });
-
 document.getElementById('start-button').addEventListener('click', function () {
     if (!isRunning) {  // Check if the game is already running
         animate();
         bgMusic.play();
+        bgMusic.loop = true;
         isRunning = true;
     }
 });
-
 document.getElementById('pause-button').addEventListener('click', function () {
     cancelAnimationFrame(requestId);
 });
-
 document.getElementById('restart-button').addEventListener('click', function () {
     location.reload();
 });

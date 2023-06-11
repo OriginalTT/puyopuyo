@@ -3,6 +3,11 @@
 
 <head>
     <title>Tetris</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
 
@@ -27,16 +32,30 @@
             </div>
         </div>
         <div id="controls">
-            <button id="left-button">Left</button>
-            <button id="right-button">Right</button>
-            <button id="down-button">Down</button>
-            <button id="rotate-button">Rotate</button>
+            <button id="left-button"><span class="material-symbols-rounded">
+                    arrow_back
+                </span></button>
+            <button id="right-button"><span class="material-symbols-rounded">
+                    arrow_forward
+                </span></button>
+            <button id="down-button"><span class="material-symbols-rounded">
+                    arrow_downward
+                </span></button>
+            <button id="rotate-button"><span class="material-symbols-rounded">
+                    rotate_right
+                </span></button>
             <button id="swap-button">Keep</button>
         </div>
         <div id="game-controls">
-            <button id="pause-button">Pause</button>
-            <button id="start-button">Start</button>
-            <button id="restart-button">Restart</button>
+            <button id="pause-button"><span class="material-symbols-rounded">
+                    pause
+                </span></button>
+            <button id="start-button"><span class="material-symbols-rounded">
+                    play_arrow
+                </span></button>
+            <button id="restart-button"><span class="material-symbols-rounded">
+                    stop
+                </span></button>
         </div>
     </main>
     <script type="text/javascript" src="./tetris.js"></script>
